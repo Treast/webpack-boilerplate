@@ -2,6 +2,7 @@ var path = require('path')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HTMLWebpackPlugin = require('html-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     entry: './app/main.js',
@@ -14,7 +15,6 @@ module.exports = {
             '@': path.resolve('app', 'components')
         }
     },
-    devtool: 'cheap-module-eval-source-map',
     module: {
         rules: [
             {
@@ -27,7 +27,10 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     use: [
                         {
-                            loader: 'css-loader'
+                            loader: 'css-loader',
+                            options : {
+                                minimize: true
+                            }
                         },
                         {
                             loader: 'sass-loader'
@@ -57,20 +60,12 @@ module.exports = {
             hash: true,
             inject: true
         }),
+        new UglifyJsPlugin(),
         new CopyWebpackPlugin([
             {
                 from: path.resolve('app', 'static'),
                 to: 'assets/'
             }
         ])
-    ],
-    devServer: {
-        contentBase: path.resolve('app'),
-        watchContentBase: true,
-        port: 3000,
-        hot: true,
-        inline: true,
-        noInfo: true,
-        open: true
-    }
+    ]
 }
