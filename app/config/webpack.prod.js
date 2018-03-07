@@ -49,11 +49,24 @@ module.exports = {
                     }
                   }
                 ]
-            }
+            },
+			{
+				test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [
+					{
+						loader: "url-loader",
+						options: {
+							limit: 50000,
+							mimetype: "application/font-woff",
+							name: "./fonts/[name].[ext]",
+						},
+					}
+				]
+			}
         ]
     },
     plugins: [
-        new ExtractTextPlugin('./assets/css/[name].[chunkhash:10].css'),
+		new ExtractTextPlugin('./style.css'),
         new HTMLWebpackPlugin({
             filename: 'index.html',
             template: './app/index.html',
