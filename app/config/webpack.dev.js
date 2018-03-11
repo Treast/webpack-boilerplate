@@ -64,7 +64,10 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('./style.css'),
+		new ExtractTextPlugin({
+			filename: './style.css',
+			disable: true
+		}),
 		new HTMLWebpackPlugin({
 			filename: 'index.html',
 			template: './app/index.html',
